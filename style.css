@@ -81,7 +81,7 @@ body{
 }
 
 .filme__texto{
-    margin: 64px 38px 58px 24px;
+    margin: 64px 78px 58px 64px;
 }
 
 .filme-titulo{
@@ -101,7 +101,9 @@ body{
 }
 
 .filme__sinopse{
-    line-height: 177%;
+    line-height: 177%; /*espaçamento entre linhas de texto*/
     color: var(--cinza);
     margin: 30px 37px 46px 0;
+    display: flex;
+    align-items: center;
 }
