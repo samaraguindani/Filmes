@@ -1,6 +1,17 @@
 import { apiKey } from "./key.js";
 
 const filmes = document.querySelector(".filmes");
+const input = document.querySelector(".container-pesquisa");
+const botaoSearch = document.querySelector(".container-pesquisa-icone");
+
+botaoSearch.addEventListener('click', searchMovie);
+
+input.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      searchMovie();
+      return;
+    }
+});
 
 window.onload = async function() {
     try {
@@ -11,11 +22,31 @@ window.onload = async function() {
     }
 }
 
+async function searchMovie() {
+    const inputValue = input.value
+    if (inputValue != '') {
+      cleanAllMovies()
+      const movies = await searchMovieByName(inputValue)
+      movies.forEach(movie => renderMovie(movie))
+    }
+  }
+
+async function searchMovieByName(title) {
+    const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${title}&language=en-US&page=1`
+    const fetchResponse = await fetch(url)
+    const { results } = await fetchResponse.json()
+    return results
+}
+
 async function getPopularMovies() {
     const url = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
     const fetchResponse = await fetch(url);
     const { results } = await fetchResponse.json();
     return results;
+}
+
+function cleanAllMovies() {
+    filmes.innerHTML = ''
 }
 
 function renderMovie(movie) {
@@ -63,6 +94,8 @@ function renderMovie(movie) {
 
     const divFilmeFav = document.createElement('div');
     divFilmeFav.classList.add('filme__fav');
+    const buttonFilmeFav = document.createElement('button');
+    buttonFilmeFav.classList.add('img-coracao');
     const imagemCoracao = document.createElement('img');
     imagemCoracao.src = isFavorited ? 'image/Vector.svg' : 'image/Heart.svg';  //se true coracao preechido se nao coracao aberto
     imagemCoracao.alt = 'Heart';
@@ -70,7 +103,8 @@ function renderMovie(movie) {
     const favoritoTexto = document.createElement('span');
     favoritoTexto.classList.add('avaliacao-paragrafo');
     favoritoTexto.textContent = 'Favoritar';
-    divFilmeFav.appendChild(imagemCoracao);
+    buttonFilmeFav.appendChild(imagemCoracao);
+    divFilmeFav.appendChild(buttonFilmeFav);
     divFilmeFav.appendChild(favoritoTexto);
     divFilmeAvaliacao.appendChild(divFilmeFav);
 
