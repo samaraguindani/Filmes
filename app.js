@@ -1,46 +1,28 @@
+import { apiKey } from "./key.js";
+
 const filmes = document.querySelector(".filmes");
 
-const movies = [
-  {
-    image: 'image/Frame 2.svg',
-    title: 'Batman',
-    rating: 9.2,
-    year: 2022,
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    isFavorited: false
-  },
-  {
-    image: 'image/Image.svg',
-    title: 'Avengers',
-    rating: 9.2,
-    year: 2019,
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    isFavorited: false
-  },
-  {
-    image: 'image/Frame 2 (1).svg',
-    title: 'Doctor Strange',
-    rating: 9.2,
-    year: 2022,
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    isFavorited: true
-  },
-  {
-    image: 'image/Frame 2 (2).svg',
-    title: 'Avatar',
-    rating: 9.2,
-    year: 2009,
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    isFavorited: true
-  },
-]
+window.onload = async function() {
+    try {
+        const movies = await getPopularMovies();
+        movies.forEach(movie => renderMovie(movie));
+    } catch (error) {
+        console.error('Erro ao obter os filmes populares:', error);
+    }
+}
 
-window.onload = function() {
-    movies.forEach(movie => renderMovie(movie))
+async function getPopularMovies() {
+    const url = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
+    const fetchResponse = await fetch(url);
+    const { results } = await fetchResponse.json();
+    return results;
 }
 
 function renderMovie(movie) {
-    const { title, image, rating, year, description, isFavorited } = movie
+    const { title, poster_path, vote_average, release_date, overview } = movie;
+    const isFavorited = false;
+    const year = new Date(release_date).getFullYear();
+    const image = `https://image.tmdb.org/t/p/w500${poster_path}`;
 
     const divFilme = document.createElement('div');
     divFilme.classList.add('filme');
@@ -49,6 +31,7 @@ function renderMovie(movie) {
     const divFilmeImagem = document.createElement('div');
     divFilmeImagem.classList.add('filme__imagem');
     const filmeImg = document.createElement('img');
+    filmeImg.classList.add('filme-imagem');
     filmeImg.src = image;
     filmeImg.alt = `${title} Poster` ;
     divFilmeImagem.appendChild(filmeImg);
@@ -66,7 +49,6 @@ function renderMovie(movie) {
     divFilmeAvaliacao.classList.add('filme__avaliacao');
     divFilmeTexto.appendChild(divFilmeAvaliacao);
     const divFilmeNota = document.createElement('div');
-    divFilmeAvaliacao.classList.add('filme__nota');
     divFilmeAvaliacao.appendChild(divFilmeNota);
     const imgEstrela  = document.createElement('img');
     imgEstrela.classList.add('img-estrela');
@@ -74,7 +56,7 @@ function renderMovie(movie) {
     imgEstrela.alt = 'Star';
     const filmeNota = document.createElement('span');
     filmeNota.classList.add('avaliacao-paragrafo');
-    filmeNota.textContent = rating;
+    filmeNota.textContent = vote_average;
     divFilmeAvaliacao.appendChild(imgEstrela);
     divFilmeAvaliacao.appendChild(filmeNota);
     divFilmeAvaliacao.appendChild(divFilmeNota);
@@ -96,7 +78,7 @@ function renderMovie(movie) {
     divFilmeSinopse.classList.add('filme__sinopse');
     const filmeSinopse = document.createElement('span');
     filmeSinopse.classList.add('filme-sinopse');
-    filmeSinopse.textContent = description;
+    filmeSinopse.textContent = overview;
     divFilmeSinopse.appendChild(filmeSinopse);
     divFilme.appendChild(divFilmeSinopse);
 }

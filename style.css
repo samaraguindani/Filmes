@@ -69,7 +69,13 @@ body{
 }
 
 .filme__imagem{
-    padding: 24px 0 0 38px;
+    padding: 24px 16px 24px 38px;
+}
+
+.filme-imagem{
+    width: 170px;
+    height: 250px;
+    object-fit: cover;
 }
 
 .filme-titulo,
@@ -85,25 +91,27 @@ body{
 }
 
 .filme__texto{
-    margin: 64px 78px 38px 64px;
+    margin: 64px 50px 38px 64px;
+    width: fit-content;
+
 }
 
 .filme-titulo{
-    width: 268px;
+    width: fit-content;
     margin-bottom: 24px;
 }
 
-.filme__avaliacao{
-    width: 268px;
+.filme__avaliacao,
+.filme__fav{
     display: flex;
     flex-direction: row;
-    
+    align-items: center;
+    justify-content: flex-start;
 }
 
 .filme__sinopse{
     line-height: 177%; /*espaçamento entre linhas de texto*/
     color: var(--cinza);
-    margin: 30px 37px 46px 0;
-    display: flex;
-    align-items: center;
+    margin: 64px 38px 38px 0;
+    
 }
