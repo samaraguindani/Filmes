@@ -80,8 +80,12 @@ body{
     text-align: left;
 }
 
+.avaliacao-paragrafo{
+    padding-right: 45px;
+}
+
 .filme__texto{
-    margin: 64px 78px 58px 64px;
+    margin: 64px 78px 38px 64px;
 }
 
 .filme-titulo{
@@ -94,10 +98,6 @@ body{
     display: flex;
     flex-direction: row;
     
-}
-
-.filme__nota{
-    margin-right: 45px;
 }
 
 .filme__sinopse{

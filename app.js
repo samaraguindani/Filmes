@@ -42,41 +42,62 @@ window.onload = function() {
 function renderMovie(movie) {
     const { title, image, rating, year, description, isFavorited } = movie
 
-    const divFilme = document.createElement('.div');
+    const divFilme = document.createElement('div');
     divFilme.classList.add('filme');
     filmes.appendChild(divFilme);
 
-    const divImagem = document.createElement('.div');
-    divImagem.classList.add('filme__imagem');
+    const divFilmeImagem = document.createElement('div');
+    divFilmeImagem.classList.add('filme__imagem');
     const filmeImg = document.createElement('img');
     filmeImg.src = image;
     filmeImg.alt = `${title} Poster` ;
-    divImagem.appendChild(filmeImg);
-    divFilme.appendChild(divImagem);
+    divFilmeImagem.appendChild(filmeImg);
+    divFilme.appendChild(divFilmeImagem);
 
-    const divTexto = document.createElement('.div');
-    divTexto.classList.add('filme__texto');
+    const divFilmeTexto = document.createElement('div');
+    divFilmeTexto.classList.add('filme__texto');
     const filmeTitulo = document.createElement('p');
+    filmeTitulo.classList.add('filme-titulo');
     filmeTitulo.textContent = `${title} ${year}`;
-    divTexto.appendChild(filmeTitulo);
-    divImagem.appendChild(divTexto);
+    divFilmeTexto.appendChild(filmeTitulo);
+    divFilme.appendChild(divFilmeTexto);
 
-    const divFilmeAvaliacao = document.createElement('.div');
+    const divFilmeAvaliacao = document.createElement('div');
     divFilmeAvaliacao.classList.add('filme__avaliacao');
-    divTexto.appendChild(divFilmeAvaliacao);
-    const divNota = document.createElement('.div');
-    divAvaliacao.classList.add('filme__nota');
-    divFilmeAvaliacao.appendChild(divNota);
-    
-
+    divFilmeTexto.appendChild(divFilmeAvaliacao);
+    const divFilmeNota = document.createElement('div');
+    divFilmeAvaliacao.classList.add('filme__nota');
+    divFilmeAvaliacao.appendChild(divFilmeNota);
     const imgEstrela  = document.createElement('img');
-    imgEstrela.src = 'image/Star.png'
-    starImage.alt = 'Star'
-    const movieRate = document.createElement('span')
-    movieRate.classList.add('movie-rate')
-    movieRate.textContent = rating
-    ratingContainer.appendChild(starImage)
-    ratingContainer.appendChild(movieRate)
-    informations.appendChild(ratingContainer)
+    imgEstrela.classList.add('img-estrela');
+    imgEstrela.src = 'image/Star.svg';
+    imgEstrela.alt = 'Star';
+    const filmeNota = document.createElement('span');
+    filmeNota.classList.add('avaliacao-paragrafo');
+    filmeNota.textContent = rating;
+    divFilmeAvaliacao.appendChild(imgEstrela);
+    divFilmeAvaliacao.appendChild(filmeNota);
+    divFilmeAvaliacao.appendChild(divFilmeNota);
 
+    const divFilmeFav = document.createElement('div');
+    divFilmeFav.classList.add('filme__fav');
+    const imagemCoracao = document.createElement('img');
+    imagemCoracao.src = isFavorited ? 'image/Vector.svg' : 'image/Heart.svg';  //se true coracao preechido se nao coracao aberto
+    imagemCoracao.alt = 'Heart';
+    imagemCoracao.classList.add('img-coracao');
+    const favoritoTexto = document.createElement('span');
+    favoritoTexto.classList.add('avaliacao-paragrafo');
+    favoritoTexto.textContent = 'Favoritar';
+    divFilmeFav.appendChild(imagemCoracao);
+    divFilmeFav.appendChild(favoritoTexto);
+    divFilmeAvaliacao.appendChild(divFilmeFav);
+
+    const divFilmeSinopse = document.createElement('div');
+    divFilmeSinopse.classList.add('filme__sinopse');
+    const filmeSinopse = document.createElement('span');
+    filmeSinopse.classList.add('filme-sinopse');
+    filmeSinopse.textContent = description;
+    divFilmeSinopse.appendChild(filmeSinopse);
+    divFilme.appendChild(divFilmeSinopse);
 }
+
