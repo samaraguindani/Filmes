@@ -5,16 +5,9 @@ const input = document.querySelector(".container-pesquisa");
 const botaoSearch = document.querySelector(".container-pesquisa-icone");
 var checkbox = document.querySelector(".container-checkbox");
 
+window.onload = windowLoad();
 botaoSearch.addEventListener('click', searchMovie);
-
-checkbox.addEventListener('change', function() {
-  if (this.checked) {
-    checkMovieIsFavorited();
-    console.log("Checkbox is checked..");
-  } else {
-    console.log("Checkbox is not checked..");
-  }
-});
+checkbox.addEventListener('change', checkCheckboxStatus);
 
 input.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
@@ -23,7 +16,8 @@ input.addEventListener('keypress', function (e) {
     }
 });
 
-window.onload = async function() {
+
+async function windowLoad() {
     try {
         const movies = await getPopularMovies();
         movies.forEach(movie => renderMovie(movie));
@@ -35,9 +29,9 @@ window.onload = async function() {
 async function searchMovie() {
     const inputValue = input.value
     if (inputValue != '') {
-      cleanAllMovies()
-      const movies = await searchMovieByName(inputValue)
-      movies.forEach(movie => renderMovie(movie))
+      cleanAllMovies();
+      const movies = await searchMovieByName(inputValue);
+      movies.forEach(movie => renderMovie(movie));
     }
 }
 
@@ -54,6 +48,18 @@ async function getPopularMovies() {
     const { results } = await fetchResponse.json();
     return results;
 }
+
+function checkCheckboxStatus() {
+    const isChecked = checkbox.checked
+    if (isChecked) {
+      cleanAllMovies()
+      const movies = getFavoriteMovies() || []
+      movies.forEach(movie => renderMovie(movie))
+    } else {
+      cleanAllMovies()
+      windowLoad();
+    }
+  }
 
 function cleanAllMovies() {
     filmes.innerHTML = ''
