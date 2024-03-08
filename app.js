@@ -9,6 +9,7 @@ botaoSearch.addEventListener('click', searchMovie);
 
 checkbox.addEventListener('change', function() {
   if (this.checked) {
+    checkMovieIsFavorited();
     console.log("Checkbox is checked..");
   } else {
     console.log("Checkbox is not checked..");
